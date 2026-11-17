@@ -1,9 +1,9 @@
 // api/transitions.ts
-import { isRequestAuthenticated } from './_lib/auth';
-import { appendPracticeLog } from './_lib/sheets';
-import { checkAndStoreToken } from './_lib/idempotency';
-import { parseJsonBody, sendJson } from './_lib/http';
-import { TransitionLog, CreateTransitionPayload } from '../src/types/practice';
+import { isRequestAuthenticated } from './_lib/auth.js';
+import { appendPracticeLog } from './_lib/sheets.js';
+import { checkAndStoreToken } from './_lib/idempotency.js';
+import { parseJsonBody, sendJson } from './_lib/http.js';
+import type { TransitionLog, CreateTransitionPayload } from '../src/types/practice';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') {

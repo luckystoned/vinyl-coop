@@ -4,9 +4,9 @@ import {
   recordLoginFailure,
   recordLoginSuccess,
   createSessionCookie,
-} from './_lib/auth';
-import { isGoogleSheetsConfigured } from './_lib/sheets';
-import { parseJsonBody, sendJson, getClientIp } from './_lib/http';
+} from './_lib/auth.js';
+import { isGoogleSheetsConfigured } from './_lib/sheets.js';
+import { parseJsonBody, sendJson, getClientIp } from './_lib/http.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') {

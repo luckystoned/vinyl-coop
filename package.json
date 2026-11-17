@@ -4,9 +4,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && node scripts/build-api.mjs",
+    "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest run"
+  },
+  "engines": {
+    "node": ">=20.x"
   },
   "dependencies": {
     "googleapis": "^144.0.0",

@@ -1,6 +1,6 @@
 // api/_lib/auth.ts
 import crypto from 'node:crypto';
-import { ensureEnvLoaded } from './env';
+import { ensureEnvLoaded } from './env.js';
 
 ensureEnvLoaded();
 

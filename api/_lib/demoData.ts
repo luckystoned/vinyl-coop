@@ -1,6 +1,6 @@
 // api/_lib/demoData.ts
-import { Track } from '../../src/types/track';
-import { generateTrackId } from '../../src/lib/normalization/inventory';
+import type { Track } from '../../src/types/track';
+import { generateTrackId } from './normalization.js';
 
 const rawDemoList = [
   {

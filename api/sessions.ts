@@ -1,7 +1,7 @@
 // api/sessions.ts
-import { isRequestAuthenticated } from './_lib/auth';
-import { getPracticeSessions } from './_lib/sheets';
-import { sendJson } from './_lib/http';
+import { isRequestAuthenticated } from './_lib/auth.js';
+import { getPracticeSessions } from './_lib/sheets.js';
+import { sendJson } from './_lib/http.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'GET') {

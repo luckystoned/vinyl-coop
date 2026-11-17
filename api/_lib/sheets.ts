@@ -1,10 +1,10 @@
 // api/_lib/sheets.ts
 import { google } from 'googleapis';
-import { Track } from '../../src/types/track';
-import { TransitionLog, PracticeSession } from '../../src/types/practice';
-import { normalizeInventoryRows } from '../../src/lib/normalization/inventory';
-import { DEMO_TRACKS } from './demoData';
-import { ensureEnvLoaded } from './env';
+import type { Track } from '../../src/types/track';
+import type { TransitionLog, PracticeSession } from '../../src/types/practice';
+import { normalizeInventoryRows } from './normalization.js';
+import { DEMO_TRACKS } from './demoData.js';
+import { ensureEnvLoaded } from './env.js';
 
 ensureEnvLoaded();
 
