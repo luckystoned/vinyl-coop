@@ -1,0 +1,17 @@
+{
+  "name": "Vinyl Coop",
+  "short_name": "VinylCoop",
+  "description": "Asistente de recomendación y práctica para mezclas de vinilos físicos",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#090a0f",
+  "theme_color": "#090a0f",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
