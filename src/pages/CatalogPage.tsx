@@ -1,12 +1,13 @@
 // src/pages/CatalogPage.tsx
 import React, { useState, useMemo, useEffect } from 'react';
-import { Search, Disc, Filter, RefreshCw, X, Loader2 } from 'lucide-react';
+import { Search, Disc, Filter, RefreshCw, X, Loader2, Plus, Download, CheckCircle2 } from 'lucide-react';
 import { Track } from '../types/track';
 import { PracticeSession } from '../types/practice';
 import { api } from '../services/api';
 import { groupTracksByAlbum, buildTrackHistoryMap } from '../lib/catalog/grouping';
 import { AlbumCard } from '../components/catalog/AlbumCard';
 import { TrackDetailModal } from '../components/catalog/TrackDetailModal';
+import { TrackEditModal } from '../components/catalog/TrackEditModal';
 
 interface CatalogPageProps {
   tracks: Track[];
@@ -25,6 +26,9 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
   const [selectedGenre, setSelectedGenre] = useState<string>('all');
   const [filterTestedOnly, setFilterTestedOnly] = useState<boolean>(false);
   const [activeModalTrack, setActiveModalTrack] = useState<Track | null>(null);
+  const [editingTrack, setEditingTrack] = useState<Track | null | undefined>(undefined); // undefined: closed, null: new, Track: editing
+  const [isSyncingSheets, setIsSyncingSheets] = useState<boolean>(false);
+  const [syncStatusMsg, setSyncStatusMsg] = useState<string | null>(null);
 
   // Sessions practice history for badge and history lookups
   const [sessions, setSessions] = useState<PracticeSession[]>([]);
@@ -97,10 +101,26 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
     });
   }, [allReleases, searchQuery, selectedGenre, filterTestedOnly, historyMap]);
 
+  const handleSyncSheets = async () => {
+    setIsSyncingSheets(true);
+    setSyncStatusMsg(null);
+    try {
+      const res = await api.syncSheets();
+      setSyncStatusMsg(res.message);
+      onRefreshCollection();
+      setTimeout(() => setSyncStatusMsg(null), 5000);
+    } catch (err: any) {
+      setSyncStatusMsg(err.message || 'Error al sincronizar desde Google Sheets');
+      setTimeout(() => setSyncStatusMsg(null), 5000);
+    } finally {
+      setIsSyncingSheets(false);
+    }
+  };
+
   return (
     <main className="main-content">
       {/* Header Bar */}
-      <div className="section-header" style={{ marginBottom: '12px' }}>
+      <div className="section-header" style={{ marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Disc size={18} color="var(--color-cyan)" />
           <span className="section-title">
@@ -108,28 +128,79 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
           </span>
         </div>
 
-        <button
-          type="button"
-          onClick={onRefreshCollection}
-          disabled={isRefreshing}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+          {/* Sync Sheets Button */}
+          <button
+            type="button"
+            className="btn-secondary"
+            onClick={handleSyncSheets}
+            disabled={isSyncingSheets || isRefreshing}
+            style={{ padding: '6px 10px', fontSize: '0.78rem', gap: '6px' }}
+            title="Re-importar y sincronizar stock desde Google Sheets"
+          >
+            {isSyncingSheets ? (
+              <Loader2 size={13} className="spin" />
+            ) : (
+              <Download size={13} color="var(--color-green)" />
+            )}
+            {isSyncingSheets ? 'Sincronizando...' : 'Importar Sheets'}
+          </button>
+
+          {/* Add New Vinyl Button */}
+          <button
+            type="button"
+            className="btn-primary"
+            onClick={() => setEditingTrack(null)}
+            style={{ padding: '6px 12px', fontSize: '0.78rem', gap: '6px' }}
+          >
+            <Plus size={14} />
+            + Nuevo Vinilo
+          </button>
+
+          {/* Refresh Supabase List */}
+          <button
+            type="button"
+            onClick={onRefreshCollection}
+            disabled={isRefreshing || isSyncingSheets}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'var(--color-cyan)',
+              cursor: 'pointer',
+              padding: '4px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              fontSize: '0.78rem',
+              opacity: isRefreshing ? 0.6 : 1,
+            }}
+            title="Recargar catálogo desde Supabase"
+          >
+            <RefreshCw size={13} className={isRefreshing ? 'spin' : ''} />
+            {isRefreshing ? 'Cargando...' : 'Recargar'}
+          </button>
+        </div>
+      </div>
+
+      {syncStatusMsg && (
+        <div
           style={{
-            background: 'none',
-            border: 'none',
+            padding: '10px 14px',
+            backgroundColor: 'rgba(0, 229, 255, 0.1)',
+            border: '1px solid var(--color-cyan)',
+            borderRadius: '8px',
             color: 'var(--color-cyan)',
-            cursor: 'pointer',
-            padding: '4px',
+            fontSize: '0.82rem',
+            marginBottom: '12px',
             display: 'flex',
             alignItems: 'center',
-            gap: '4px',
-            fontSize: '0.78rem',
-            opacity: isRefreshing ? 0.6 : 1,
+            gap: '8px',
           }}
-          title="Actualizar catálogo desde Google Sheets"
         >
-          <RefreshCw size={13} className={isRefreshing ? 'spin' : ''} />
-          {isRefreshing ? 'Actualizando...' : 'Recargar'}
-        </button>
-      </div>
+          <CheckCircle2 size={16} />
+          {syncStatusMsg}
+        </div>
+      )}
 
       {/* Search Input */}
       <div style={{ position: 'relative', marginBottom: '10px' }}>
@@ -276,6 +347,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
               historyMap={historyMap}
               onSelectTrack={onSelectTrackForMix}
               onOpenTrackDetail={track => setActiveModalTrack(track)}
+              onEditTrack={track => setEditingTrack(track)}
             />
           ))}
         </div>
@@ -290,6 +362,21 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
           onSelectTrackForMix={track => {
             setActiveModalTrack(null);
             onSelectTrackForMix(track);
+          }}
+          onEditTrack={track => setEditingTrack(track)}
+        />
+      )}
+
+      {/* Modal for Creating or Editing Track */}
+      {editingTrack !== undefined && (
+        <TrackEditModal
+          track={editingTrack}
+          onClose={() => setEditingTrack(undefined)}
+          onSaved={() => {
+            onRefreshCollection();
+          }}
+          onDeleted={() => {
+            onRefreshCollection();
           }}
         />
       )}

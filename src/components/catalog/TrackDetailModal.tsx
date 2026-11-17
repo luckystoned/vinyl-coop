@@ -1,6 +1,6 @@
 // src/components/catalog/TrackDetailModal.tsx
 import React from 'react';
-import { X, Disc, Zap, Play, Star, Sliders, Calendar, ArrowRight } from 'lucide-react';
+import { X, Disc, Zap, Play, Star, Sliders, Calendar, ArrowRight, Edit2 } from 'lucide-react';
 import { Track } from '../../types/track';
 import { TrackPracticeHistory } from '../../types/catalog';
 import { formatPitchPct } from '../../lib/bpm/pitch';
@@ -10,6 +10,7 @@ interface TrackDetailModalProps {
   history?: TrackPracticeHistory;
   onClose: () => void;
   onSelectTrackForMix: (track: Track) => void;
+  onEditTrack?: (track: Track) => void;
 }
 
 export const TrackDetailModal: React.FC<TrackDetailModalProps> = ({
@@ -17,6 +18,7 @@ export const TrackDetailModal: React.FC<TrackDetailModalProps> = ({
   history,
   onClose,
   onSelectTrackForMix,
+  onEditTrack,
 }) => {
   const allTransitions = [
     ...(history?.asSource.map(t => ({ ...t, role: 'source' as const })) || []),
@@ -43,14 +45,31 @@ export const TrackDetailModal: React.FC<TrackDetailModalProps> = ({
             <Disc size={18} color="var(--color-cyan)" />
             <span className="modal-title">Detalle del Track</span>
           </div>
-          <button
-            type="button"
-            className="close-btn"
-            onClick={onClose}
-            aria-label="Cerrar"
-          >
-            <X size={20} />
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {onEditTrack && (
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={() => {
+                  onClose();
+                  onEditTrack(track);
+                }}
+                style={{ padding: '4px 10px', fontSize: '0.78rem', gap: '4px' }}
+                title="Editar datos de este vinilo"
+              >
+                <Edit2 size={13} />
+                Editar
+              </button>
+            )}
+            <button
+              type="button"
+              className="close-btn"
+              onClick={onClose}
+              aria-label="Cerrar"
+            >
+              <X size={20} />
+            </button>
+          </div>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>

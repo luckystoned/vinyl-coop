@@ -1,6 +1,6 @@
 // api/transitions.ts
 import { isRequestAuthenticated } from './_lib/auth.js';
-import { appendPracticeLog } from './_lib/sheets.js';
+import { appendPracticeLog } from './_lib/supabase.js';
 import { checkAndStoreToken } from './_lib/idempotency.js';
 import { parseJsonBody, sendJson } from './_lib/http.js';
 import type { TransitionLog, CreateTransitionPayload } from '../src/types/practice';
@@ -67,17 +67,16 @@ export default async function handler(req: any, res: any) {
   };
 
   try {
-    const { success, demoMode, updatedRange } = await appendPracticeLog(transitionLog);
+    const { success, demoMode } = await appendPracticeLog(transitionLog);
     return sendJson(res, 201, {
       success,
       transition: transitionLog,
       demoMode,
-      updatedRange,
     });
   } catch (error: any) {
     console.error('API /api/transitions write error:', error);
     return sendJson(res, 500, {
-      error: error.message || 'Error al guardar la transición en Google Sheets',
+      error: error.message || 'Error al guardar la transición en la base de datos',
     });
   }
 }

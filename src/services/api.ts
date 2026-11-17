@@ -63,6 +63,32 @@ class ApiService {
       body: JSON.stringify(payload),
     });
   }
+
+  async saveTrack(track: Track): Promise<{ success: boolean; track: Track }> {
+    return this.request('/api/tracks', {
+      method: 'POST',
+      body: JSON.stringify(track),
+    });
+  }
+
+  async deleteTrack(trackId: string): Promise<{ success: boolean }> {
+    return this.request(`/api/tracks?id=${encodeURIComponent(trackId)}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async syncSheets(): Promise<{ success: boolean; message: string; importedCount: number }> {
+    return this.request('/api/sync-sheets', {
+      method: 'POST',
+    });
+  }
+
+  async uploadCover(imageBase64: string, mimeType: string): Promise<{ success: boolean; url: string }> {
+    return this.request('/api/upload-cover', {
+      method: 'POST',
+      body: JSON.stringify({ imageBase64, mimeType }),
+    });
+  }
 }
 
 export const api = new ApiService();

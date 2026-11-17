@@ -1,6 +1,6 @@
 // src/components/catalog/AlbumCard.tsx
 import React, { useState } from 'react';
-import { Disc, ChevronDown, ChevronUp, History, Play } from 'lucide-react';
+import { Disc, ChevronDown, ChevronUp, History, Play, Edit2 } from 'lucide-react';
 import { AlbumRelease, TrackPracticeHistory } from '../../types/catalog';
 import { Track } from '../../types/track';
 
@@ -9,6 +9,7 @@ interface AlbumCardProps {
   historyMap: Map<string, TrackPracticeHistory>;
   onSelectTrack: (track: Track) => void;
   onOpenTrackDetail: (track: Track) => void;
+  onEditTrack?: (track: Track) => void;
 }
 
 export const AlbumCard: React.FC<AlbumCardProps> = ({
@@ -16,6 +17,7 @@ export const AlbumCard: React.FC<AlbumCardProps> = ({
   historyMap,
   onSelectTrack,
   onOpenTrackDetail,
+  onEditTrack,
 }) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
@@ -259,6 +261,24 @@ export const AlbumCard: React.FC<AlbumCardProps> = ({
                       </div>
 
                       <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
+                        {onEditTrack && (
+                          <button
+                            type="button"
+                            className="btn"
+                            onClick={() => onEditTrack(t)}
+                            style={{
+                              padding: '5px 7px',
+                              fontSize: '0.75rem',
+                              background: 'var(--bg-input)',
+                              color: 'var(--text-secondary)',
+                              border: '1px solid var(--border-subtle)',
+                            }}
+                            title="Editar vinilo"
+                          >
+                            <Edit2 size={11} />
+                          </button>
+                        )}
+
                         <button
                           type="button"
                           className="btn"

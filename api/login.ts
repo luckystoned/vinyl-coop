@@ -5,7 +5,7 @@ import {
   recordLoginSuccess,
   createSessionCookie,
 } from './_lib/auth.js';
-import { isGoogleSheetsConfigured } from './_lib/sheets.js';
+import { isSupabaseConfigured } from './_lib/supabase.js';
 import { parseJsonBody, sendJson, getClientIp } from './_lib/http.js';
 
 export default async function handler(req: any, res: any) {
@@ -33,15 +33,15 @@ export default async function handler(req: any, res: any) {
 
   recordLoginSuccess(ip);
   const cookie = createSessionCookie();
-  const sheetConfigured = isGoogleSheetsConfigured();
+  const databaseConfigured = isSupabaseConfigured();
 
   return sendJson(
     res,
     200,
     {
       success: true,
-      sheetConfigured,
-      demoMode: !sheetConfigured,
+      sheetConfigured: databaseConfigured,
+      demoMode: !databaseConfigured,
     },
     { 'Set-Cookie': cookie }
   );
