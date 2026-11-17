@@ -4,6 +4,9 @@ import { Track } from '../../src/types/track';
 import { TransitionLog, PracticeSession } from '../../src/types/practice';
 import { normalizeInventoryRows } from '../../src/lib/normalization/inventory';
 import { DEMO_TRACKS } from './demoData';
+import { ensureEnvLoaded } from './env';
+
+ensureEnvLoaded();
 
 const DEFAULT_SHEET_ID = '1oXiGomNeglmygM6hHFqbpmz28v5JySONhxWppVujjCg';
 
@@ -91,9 +94,14 @@ export async function getInventory(forceRefresh: boolean = false): Promise<{ tra
 /**
  * Appends a transition log row to the "Practice_Log" tab with RAW formatting.
  */
-export async function appendPracticeLog(log: TransitionLog): Promise<{ success: boolean; demoMode: boolean }> {
-  if (!isGoogleSheetsConfigured()) {
-    // Demo mode: record in local memory store so user can see it in Historial during demo
+export async function appendPracticeLog(log: TransitionLog): Promise<{
+  success: boolean;
+  demoMode: boolean;
+  updatedRange?: string;
+  updatedRows?: number;
+}> {
+  if (process.env.MOCK_SHEETS === 'true' || !isGoogleSheetsConfigured()) {
+    // Demo / mock mode: record in local memory store so user can see it in Historial during demo
     demoPracticeLogs.unshift(log);
     return { success: true, demoMode: true };
   }
@@ -125,7 +133,7 @@ export async function appendPracticeLog(log: TransitionLog): Promise<{ success: 
     log.recommendation_reasons || '',
   ];
 
-  await sheets.spreadsheets.values.append({
+  const appendRes = await sheets.spreadsheets.values.append({
     spreadsheetId,
     range: "'Practice_Log'!A:T",
     valueInputOption: 'RAW', // Essential: prevent formulas or formatting corruption
@@ -134,7 +142,10 @@ export async function appendPracticeLog(log: TransitionLog): Promise<{ success: 
     },
   });
 
-  return { success: true, demoMode: false };
+  const updatedRange = appendRes.data.updates?.updatedRange || undefined;
+  const updatedRows = appendRes.data.updates?.updatedRows || 1;
+
+  return { success: true, demoMode: false, updatedRange, updatedRows };
 }
 
 /**

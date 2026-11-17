@@ -1,7 +1,10 @@
-import { defineConfig } from 'vitest/config';
+import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import { fileURLToPath, URL } from 'node:url';
-import type { Plugin } from 'vite';
+import { ensureEnvLoaded } from './api/_lib/env';
+
+// Load .env.local and .env into process.env for local API dev middleware
+ensureEnvLoaded();
 
 function vercelApiDevPlugin(): Plugin {
   return {
@@ -17,11 +20,12 @@ function vercelApiDevPlugin(): Plugin {
               await mod.default(req, res);
               return;
             }
-          } catch (err: any) {
+          } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : 'Internal Server Error';
             console.error(`Dev API [${route}] error:`, err);
             res.statusCode = 500;
             res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({ error: err.message || 'Internal Server Error' }));
+            res.end(JSON.stringify({ error: message }));
             return;
           }
         }
@@ -37,10 +41,5 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
-  },
-  test: {
-    globals: true,
-    environment: 'node',
-    include: ['tests/**/*.{test,spec}.{ts,tsx}', 'src/**/*.{test,spec}.{ts,tsx}'],
   },
 });

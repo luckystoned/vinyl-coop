@@ -40,7 +40,7 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ tracks, onResumeSessio
   };
 
   return (
-    <main className="lab-content">
+    <main className="main-content">
       <SessionList
         sessions={sessions}
         onResumeSession={handleResumeSession}

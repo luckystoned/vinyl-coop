@@ -1,4 +1,4 @@
-// src/components/mixlab/IncompleteList.tsx
+// src/components/mixer/IncompleteList.tsx
 import React, { useState } from 'react';
 import { ChevronDown, ChevronRight, HelpCircle, Play } from 'lucide-react';
 import { Track } from '../../types/track';

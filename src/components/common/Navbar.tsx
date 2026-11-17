@@ -3,10 +3,9 @@ import React from 'react';
 import { Disc, History, Sliders, LogOut } from 'lucide-react';
 
 interface NavbarProps {
-  currentTab: 'mixlab' | 'history';
-  onSelectTab: (tab: 'mixlab' | 'history') => void;
+  currentTab: 'mixer' | 'history';
+  onSelectTab: (tab: 'mixer' | 'history') => void;
   onLogout: () => void;
-  activeSessionId?: string | null;
   transitionsInSession?: number;
 }
 
@@ -24,18 +23,17 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
         <div className="brand-title">
           Vinyl Coop
-          <span className="brand-badge">MVP v1</span>
         </div>
       </div>
 
       <nav className="nav-tabs">
         <button
           type="button"
-          className={`nav-tab-btn ${currentTab === 'mixlab' ? 'active' : ''}`}
-          onClick={() => onSelectTab('mixlab')}
+          className={`nav-tab-btn ${currentTab === 'mixer' ? 'active' : ''}`}
+          onClick={() => onSelectTab('mixer')}
         >
           <Sliders size={15} />
-          Mix Lab
+          Mezclar
         </button>
         <button
           type="button"

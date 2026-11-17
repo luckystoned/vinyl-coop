@@ -1,4 +1,4 @@
-// src/pages/MixLabPage.tsx
+// src/pages/MixerPage.tsx
 import React, { useState, useMemo } from 'react';
 import { PlusCircle } from 'lucide-react';
 import { Track } from '../types/track';
@@ -6,14 +6,14 @@ import { RecommendationMode, GenreFilter, RecommendationResult } from '../types/
 import { CreateTransitionPayload } from '../types/practice';
 import { getRecommendations } from '../lib/recommendations/engine';
 import { api } from '../services/api';
-import { TrackSelector } from '../components/mixlab/TrackSelector';
-import { CurrentDeck } from '../components/mixlab/CurrentDeck';
-import { Controls } from '../components/mixlab/Controls';
-import { SuggestionList } from '../components/mixlab/SuggestionList';
-import { IncompleteList } from '../components/mixlab/IncompleteList';
-import { PracticeModal } from '../components/mixlab/PracticeModal';
+import { TrackSelector } from '../components/mixer/TrackSelector';
+import { CurrentDeck } from '../components/mixer/CurrentDeck';
+import { Controls } from '../components/mixer/Controls';
+import { SuggestionList } from '../components/mixer/SuggestionList';
+import { IncompleteList } from '../components/mixer/IncompleteList';
+import { PracticeModal } from '../components/mixer/PracticeModal';
 
-interface MixLabPageProps {
+interface MixerPageProps {
   tracks: Track[];
   currentTrack: Track | null;
   onSelectTrack: (track: Track) => void;
@@ -25,7 +25,7 @@ interface MixLabPageProps {
   isRefreshing: boolean;
 }
 
-export const MixLabPage: React.FC<MixLabPageProps> = ({
+export const MixerPage: React.FC<MixerPageProps> = ({
   tracks,
   currentTrack,
   onSelectTrack,
@@ -72,7 +72,7 @@ export const MixLabPage: React.FC<MixLabPageProps> = ({
   };
 
   return (
-    <main className="lab-content">
+    <main className="main-content">
       {/* Active Session Info Bar */}
       <div className="session-bar" style={{ borderRadius: 'var(--radius-md)' }}>
         <div className="session-info">

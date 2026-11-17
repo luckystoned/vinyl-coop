@@ -1,5 +1,8 @@
 // api/_lib/auth.ts
 import crypto from 'node:crypto';
+import { ensureEnvLoaded } from './env';
+
+ensureEnvLoaded();
 
 const SESSION_COOKIE_NAME = 'vc_session';
 const SESSION_MAX_AGE_SEC = 60 * 60 * 24 * 30; // 30 days

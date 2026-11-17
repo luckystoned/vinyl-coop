@@ -67,11 +67,12 @@ export default async function handler(req: any, res: any) {
   };
 
   try {
-    const { success, demoMode } = await appendPracticeLog(transitionLog);
+    const { success, demoMode, updatedRange } = await appendPracticeLog(transitionLog);
     return sendJson(res, 201, {
       success,
       transition: transitionLog,
       demoMode,
+      updatedRange,
     });
   } catch (error: any) {
     console.error('API /api/transitions write error:', error);

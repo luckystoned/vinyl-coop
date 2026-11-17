@@ -1,4 +1,4 @@
-// src/components/mixlab/Controls.tsx
+// src/components/mixer/Controls.tsx
 import React from 'react';
 import { RefreshCw, Compass, Target } from 'lucide-react';
 import { RecommendationMode, GenreFilter } from '../../types/recommendation';

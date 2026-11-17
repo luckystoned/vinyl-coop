@@ -1,4 +1,4 @@
-// src/components/mixlab/SuggestionList.tsx
+// src/components/mixer/SuggestionList.tsx
 import React from 'react';
 import { Play, CheckCircle2, AlertTriangle, Disc } from 'lucide-react';
 import { RecommendationResult } from '../../types/recommendation';

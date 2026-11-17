@@ -60,6 +60,7 @@ describe('API Endpoints, Security & Session Logic', () => {
   beforeEach(() => {
     process.env.APP_PASSWORD = 'test-secret-password';
     process.env.SESSION_SECRET = 'test-session-secret-key-for-tests';
+    process.env.MOCK_SHEETS = 'true';
   });
 
   // Mandatory Test 15: Protection of endpoints without authenticated session

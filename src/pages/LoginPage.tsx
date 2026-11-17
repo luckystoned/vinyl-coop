@@ -121,7 +121,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
                 Ingresando...
               </>
             ) : (
-              'Entrar al Lab'
+              'Entrar a Vinyl Coop'
             )}
           </button>
         </form>

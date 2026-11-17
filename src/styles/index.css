@@ -198,8 +198,8 @@ body {
   font-size: 0.75rem;
 }
 
-/* Mix Lab Content Area */
-.lab-content {
+/* Main Content Area */
+.main-content {
   flex: 1;
   padding: 16px;
   display: flex;

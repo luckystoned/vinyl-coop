@@ -4,7 +4,7 @@ import { Track } from './types/track';
 import { api } from './services/api';
 import { Navbar } from './components/common/Navbar';
 import { DemoBanner } from './components/common/DemoBanner';
-import { MixLabPage } from './pages/MixLabPage';
+import { MixerPage } from './pages/MixerPage';
 import { HistoryPage } from './pages/HistoryPage';
 import { LoginPage } from './pages/LoginPage';
 import { Loader2 } from 'lucide-react';
@@ -15,7 +15,7 @@ export function App() {
   const [tracks, setTracks] = useState<Track[]>([]);
   const [isLoadingTracks, setIsLoadingTracks] = useState<boolean>(false);
 
-  const [currentTab, setCurrentTab] = useState<'mixlab' | 'history'>('mixlab');
+  const [currentTab, setCurrentTab] = useState<'mixer' | 'history'>('mixer');
   const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
 
   // Active practice session
@@ -86,7 +86,7 @@ export function App() {
     if (lastTrack) {
       setCurrentTrack(lastTrack);
     }
-    setCurrentTab('mixlab');
+    setCurrentTab('mixer');
   };
 
   // Loading initial auth state
@@ -120,12 +120,11 @@ export function App() {
         currentTab={currentTab}
         onSelectTab={setCurrentTab}
         onLogout={handleLogout}
-        activeSessionId={sessionId}
         transitionsInSession={transitionsInSession}
       />
 
-      {currentTab === 'mixlab' ? (
-        <MixLabPage
+      {currentTab === 'mixer' ? (
+        <MixerPage
           tracks={tracks}
           currentTrack={currentTrack}
           onSelectTrack={setCurrentTrack}

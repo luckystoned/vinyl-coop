@@ -1,4 +1,4 @@
-// src/components/mixlab/TrackSelector.tsx
+// src/components/mixer/TrackSelector.tsx
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, X, Disc } from 'lucide-react';
 import { Track } from '../../types/track';

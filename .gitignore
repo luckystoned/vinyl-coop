@@ -4,3 +4,7 @@ dist
 .env.local
 .DS_Store
 .vercel
+vinyl-coop-*.json
+*-*.json
+*.key.json
+service-account*.json

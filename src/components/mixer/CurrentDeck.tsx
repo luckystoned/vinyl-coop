@@ -1,4 +1,4 @@
-// src/components/mixlab/CurrentDeck.tsx
+// src/components/mixer/CurrentDeck.tsx
 import React from 'react';
 import { Disc, Sliders, RotateCcw, Zap } from 'lucide-react';
 import { Track } from '../../types/track';

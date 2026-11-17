@@ -1,4 +1,4 @@
-// src/components/mixlab/PracticeModal.tsx
+// src/components/mixer/PracticeModal.tsx
 import React, { useState } from 'react';
 import { X, Check, ArrowRight, Loader2, AlertCircle } from 'lucide-react';
 import { Track } from '../../types/track';

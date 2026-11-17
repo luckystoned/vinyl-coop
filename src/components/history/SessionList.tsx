@@ -65,7 +65,7 @@ export const SessionList: React.FC<SessionListProps> = ({
           <Clock size={32} color="#64748b" style={{ margin: '0 auto 10px' }} />
           <div style={{ fontWeight: 600, fontSize: '0.95rem' }}>Aún no hay sesiones guardadas</div>
           <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>
-            Practicá mezclas en el Mix Lab y registralas con "Probé esta mezcla" para verlas aquí.
+            Practicá mezclas en Vinyl Coop y registralas con "Probé esta mezcla" para verlas aquí.
           </div>
         </div>
       ) : (
