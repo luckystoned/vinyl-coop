@@ -6,6 +6,7 @@ import { Navbar } from './components/common/Navbar';
 import { DemoBanner } from './components/common/DemoBanner';
 import { MixerPage } from './pages/MixerPage';
 import { HistoryPage } from './pages/HistoryPage';
+import { CatalogPage } from './pages/CatalogPage';
 import { LoginPage } from './pages/LoginPage';
 import { Loader2 } from 'lucide-react';
 
@@ -15,7 +16,7 @@ export function App() {
   const [tracks, setTracks] = useState<Track[]>([]);
   const [isLoadingTracks, setIsLoadingTracks] = useState<boolean>(false);
 
-  const [currentTab, setCurrentTab] = useState<'mixer' | 'history'>('mixer');
+  const [currentTab, setCurrentTab] = useState<'mixer' | 'catalog' | 'history'>('mixer');
   const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
 
   // Active practice session
@@ -112,6 +113,11 @@ export function App() {
     return <LoginPage onLoginSuccess={handleLoginSuccess} />;
   }
 
+  const handleSelectTrackForMix = (track: Track) => {
+    setCurrentTrack(track);
+    setCurrentTab('mixer');
+  };
+
   return (
     <div className="app-container">
       <DemoBanner demoMode={demoMode} />
@@ -132,6 +138,13 @@ export function App() {
           onNewSession={handleNewSession}
           transitionsInSession={transitionsInSession}
           onTransitionLogged={() => setTransitionsInSession(prev => prev + 1)}
+          onRefreshCollection={() => loadInventory(true)}
+          isRefreshing={isLoadingTracks}
+        />
+      ) : currentTab === 'catalog' ? (
+        <CatalogPage
+          tracks={tracks}
+          onSelectTrackForMix={handleSelectTrackForMix}
           onRefreshCollection={() => loadInventory(true)}
           isRefreshing={isLoadingTracks}
         />

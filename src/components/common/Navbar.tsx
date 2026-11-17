@@ -1,10 +1,10 @@
 // src/components/common/Navbar.tsx
 import React from 'react';
-import { Disc, History, Sliders, LogOut } from 'lucide-react';
+import { Disc, History, Sliders, LogOut, Library } from 'lucide-react';
 
 interface NavbarProps {
-  currentTab: 'mixer' | 'history';
-  onSelectTab: (tab: 'mixer' | 'history') => void;
+  currentTab: 'mixer' | 'catalog' | 'history';
+  onSelectTab: (tab: 'mixer' | 'catalog' | 'history') => void;
   onLogout: () => void;
   transitionsInSession?: number;
 }
@@ -34,6 +34,14 @@ export const Navbar: React.FC<NavbarProps> = ({
         >
           <Sliders size={15} />
           Mezclar
+        </button>
+        <button
+          type="button"
+          className={`nav-tab-btn ${currentTab === 'catalog' ? 'active' : ''}`}
+          onClick={() => onSelectTab('catalog')}
+        >
+          <Library size={15} />
+          Catálogo
         </button>
         <button
           type="button"
@@ -78,3 +86,4 @@ export const Navbar: React.FC<NavbarProps> = ({
     </header>
   );
 };
+
