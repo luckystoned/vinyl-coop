@@ -80,6 +80,7 @@ export function App() {
     const newId = `sess_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
     setSessionId(newId);
     setTransitionsInSession(0);
+    setCurrentTrack(null); // Reset deck A so user picks a fresh starting track
   };
 
   const handleResumeSession = (resumedSessionId: string, lastTrack: Track | null) => {
