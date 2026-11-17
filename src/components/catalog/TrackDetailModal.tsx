@@ -36,27 +36,24 @@ export const TrackDetailModal: React.FC<TrackDetailModalProps> = ({
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div
-        className="modal-card"
-        style={{ maxWidth: '520px', width: '92vw', maxHeight: '90vh', overflowY: 'auto' }}
-        onClick={e => e.stopPropagation()}
-      >
+    <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
+      <div className="modal-sheet">
         <div className="modal-header">
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Disc size={18} color="var(--color-cyan)" />
-            <span style={{ fontWeight: 700, fontSize: '0.95rem' }}>Detalle del Track</span>
+            <span className="modal-title">Detalle del Track</span>
           </div>
           <button
             type="button"
-            className="modal-close-btn"
+            className="close-btn"
             onClick={onClose}
+            aria-label="Cerrar"
           >
-            <X size={18} />
+            <X size={20} />
           </button>
         </div>
 
-        <div className="modal-body" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {/* Header Track Info */}
           <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
             <div className="vinyl-artwork-box" style={{ width: '84px', height: '84px', flexShrink: 0 }}>
